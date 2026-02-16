@@ -142,6 +142,16 @@ class QQConfig(BaseModel):
     allow_from: list[str] = Field(default_factory=list)  # Allowed user openids (empty = public access)
 
 
+class MattermostConfig(BaseModel):
+    """Mattermost channel configuration."""
+    enabled: bool = False
+    url: str = ""  # Mattermost server URL, e.g. https://mattermost.example.com
+    token: str = ""  # Personal Access Token or bot token
+    group_policy: str = "mention"  # "mention" or "open" — how to handle group channel messages
+    workspace: str = ""  # Workspace path for file upload detection (auto-set from agents.defaults.workspace)
+    allow_from: list[str] = Field(default_factory=list)  # Allowed Mattermost user IDs
+
+
 class ChannelsConfig(BaseModel):
     """Configuration for chat channels."""
     whatsapp: WhatsAppConfig = Field(default_factory=WhatsAppConfig)
@@ -153,6 +163,7 @@ class ChannelsConfig(BaseModel):
     email: EmailConfig = Field(default_factory=EmailConfig)
     slack: SlackConfig = Field(default_factory=SlackConfig)
     qq: QQConfig = Field(default_factory=QQConfig)
+    mattermost: MattermostConfig = Field(default_factory=MattermostConfig)
 
 
 class AgentDefaults(BaseModel):
